@@ -1,0 +1,71 @@
+{
+  "appId": "com.suplaykart.staff",
+  "appName": "Suplaykart Staff",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false,
+    "buildOptions": {
+      "keystorePath":     "android.keystore",
+      "keystoreAlias":    "suplaykart",
+      "releaseType":      "AAB",
+      "signingType":      "jarsigner"
+    }
+  },
+  "ios": {
+    "contentInset": "always",
+    "scrollEnabled": true,
+    "limitsNavigationsToAppBoundDomains": true
+  },
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "https",
+    "cleartext": false,
+    "allowNavigation": [
+      "*.supabase.co",
+      "*.supabase.in",
+      "*.openstreetmap.org",
+      "*.tile.openstreetmap.org",
+      "fonts.googleapis.com",
+      "fonts.gstatic.com",
+      "cdn.jsdelivr.net",
+      "unpkg.com",
+      "cdnjs.cloudflare.com"
+    ]
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration":      1500,
+      "launchAutoHide":          true,
+      "launchFadeOutDuration":   400,
+      "backgroundColor":         "#070b14ff",
+      "androidSplashResourceName":"splash",
+      "androidScaleType":        "CENTER_CROP",
+      "showSpinner":             true,
+      "androidSpinnerStyle":     "large",
+      "iosSpinnerStyle":         "small",
+      "spinnerColor":            "#4f8cff",
+      "splashFullScreen":        true,
+      "splashImmersive":         true,
+      "useDialog":               false
+    },
+    "StatusBar": {
+      "style":           "DARK",
+      "backgroundColor": "#070b14",
+      "overlaysWebView": false
+    },
+    "Keyboard": {
+      "resize": "ionic",
+      "style":  "DARK",
+      "resizeOnFullScreen": true
+    },
+    "Geolocation": {
+      "permissions": ["location"]
+    },
+    "Camera": {
+      "permissions": ["camera", "photos"]
+    }
+  }
+}
