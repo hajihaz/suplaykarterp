@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; connect-src 'self' http://127.0.0.1:8000 http://localhost:8000; img-src 'self' data:; style-src 'self'; script-src 'self'"
+    />
+    <title>HajiHaz AI</title>
+    <meta
+      name="description"
+      content="HajiHaz AI is a secure knowledge-first assistant for grounded chat, business guidance, and controlled AI retrieval."
+    />
+    <link rel="canonical" href="https://hajihazai.allbeesolutions.com/" />
+    <meta property="og:title" content="HajiHaz AI" />
+    <meta
+      property="og:description"
+      content="A secure knowledge-first AI assistant for grounded chat and practical business guidance."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hajihazai.allbeesolutions.com/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/preview/hajihaz-ui.css?v=20260512b" />
+  </head>
+  <body>
+    <main class="hh-app" data-app="hajihaz-ai">
+      <button class="hh-backdrop" id="sidebarBackdrop" type="button" aria-label="Close conversations"></button>
+
+      <aside class="hh-sidebar" id="appSidebar" aria-label="Conversation sidebar">
+        <div class="hh-sidebar-top">
+          <button class="hh-icon-button hh-sidebar-close" id="closeSidebarButton" type="button" aria-label="Close conversations">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
+          </button>
+          <a class="hh-brand" href="/" aria-label="HajiHaz AI home">
+            <span class="hh-mark" aria-hidden="true">HH</span>
+            <span>
+              <strong>Hajihaz<span>·</span>ai</strong>
+              <small>Knowledge · First</small>
+            </span>
+          </a>
+        </div>
+
+        <button class="hh-new-chat" id="newChatButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20h4L18.5 9.5a2.8 2.8 0 0 0-4-4L4 16v4Z" />
+            <path d="m13.5 6.5 4 4" />
+          </svg>
+          <span>New conversation</span>
+        </button>
+
+        <label class="hh-search">
+          <span class="sr-only">Search conversations</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input id="conversationSearch" type="search" placeholder="Search conversations" autocomplete="off" />
+        </label>
+
+        <nav class="hh-conversations" id="conversationList" aria-label="Saved conversations"></nav>
+
+        <div class="hh-sidebar-footer">
+          <div class="hh-avatar" id="sidebarAvatar" aria-hidden="true">HH</div>
+          <div>
+            <strong id="sidebarName">Haji H.</strong>
+            <span id="sidebarPlan"><i aria-hidden="true"></i>Admin · Pro</span>
+          </div>
+          <button class="hh-icon-button" id="settingsButton" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settingsPanel" title="Settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.86l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04a1.7 1.7 0 0 0-1.86-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.86.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.04A1.7 1.7 0 0 0 4.6 8.94a1.7 1.7 0 0 0-.34-1.86l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04a1.7 1.7 0 0 0 1.86.34H9a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.04a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.86-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04a1.7 1.7 0 0 0-.34 1.86V9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.04A1.7 1.7 0 0 0 19.4 15Z" />
+            </svg>
+          </button>
+        </div>
+
+        <section class="hh-settings-panel" id="settingsPanel" aria-label="Settings" hidden>
+          <div class="hh-settings-head">
+            <strong>Settings</strong>
+            <a href="/admin">Admin</a>
+          </div>
+          <section class="hh-profile-editor" aria-label="My profile">
+            <div class="hh-profile-top">
+              <button class="hh-profile-avatar" id="profileAvatarButton" type="button" aria-label="Upload profile image">
+                <span id="profileAvatarPreview">HH</span>
+              </button>
+              <div>
+                <strong>My Profile</strong>
+                <small id="profileSyncStatus">Saved on this device</small>
+              </div>
+              <input id="profileAvatarUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+            </div>
+            <label class="hh-setting-field hh-profile-field">
+              <span>Display name</span>
+              <input id="profileName" type="text" maxlength="80" autocomplete="name" />
+            </label>
+            <label class="hh-setting-field hh-profile-field">
+              <span>Username</span>
+              <input id="profileUsername" type="text" maxlength="40" autocomplete="username" />
+            </label>
+            <label class="hh-setting-field hh-profile-field">
+              <span>AI nickname</span>
+              <input id="profileAiNickname" type="text" maxlength="80" />
+            </label>
+            <label class="hh-setting-field">
+              <span>Personality</span>
+              <select id="profilePersonality">
+                <option value="balanced">Balanced</option>
+                <option value="direct">Direct</option>
+                <option value="warm">Warm</option>
+                <option value="strategic">Strategic</option>
+                <option value="creative">Creative</option>
+              </select>
+            </label>
+            <label class="hh-setting-field hh-profile-field hh-profile-bio">
+              <span>Bio</span>
+              <textarea id="profileBio" maxlength="500" rows="2"></textarea>
+            </label>
+          </section>
+          <button class="hh-setting-row" id="themeToggleButton" type="button">
+            <span>
+              <strong>Theme</strong>
+              <small id="themeLabel">Dark</small>
+            </span>
+            <span class="hh-switch" id="themeSwitch" aria-hidden="true"></span>
+          </button>
+          <label class="hh-setting-row">
+            <span>
+              <strong>Memory</strong>
+              <small>Use only when relevant</small>
+            </span>
+            <input id="memoryToggle" type="checkbox" checked />
+          </label>
+          <label class="hh-setting-field">
+            <span>AI mode</span>
+            <select id="aiMode">
+              <option value="auto">Auto routing</option>
+              <option value="general">General only</option>
+              <option value="memory">Memory aware</option>
+              <option value="reasoning">Reasoning</option>
+              <option value="coding">Coding</option>
+              <option value="creative">Creative</option>
+            </select>
+          </label>
+          <div class="hh-settings-actions">
+            <button id="exportChatButton" type="button">Export chat</button>
+            <button id="settingsClearButton" type="button">Clear chat</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="hh-chat" aria-label="Chat with HajiHaz AI">
+        <header class="hh-topbar">
+          <button class="hh-icon-button hh-mobile-menu" id="sidebarToggleButton" type="button" aria-label="Open conversations">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="hh-title-wrap">
+            <h1 id="conversationTitle">New conversation</h1>
+            <span id="conversationSubtitle">Knowledge-first · Web fallback enabled</span>
+          </div>
+          <div class="hh-top-actions">
+            <span class="hh-status" id="connectionStatus" data-state="ready">Ready</span>
+            <a class="hh-icon-button" href="/admin" aria-label="Open admin workspace" title="Admin workspace">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.86l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04a1.7 1.7 0 0 0-1.86-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.86.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.04A1.7 1.7 0 0 0 4.6 8.94a1.7 1.7 0 0 0-.34-1.86l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04a1.7 1.7 0 0 0 1.86.34H9a1.7 1.7 0 0 0 1-1.56V3a2 2 0 1 1 4 0v.04a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.86-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04a1.7 1.7 0 0 0-.34 1.86V9a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.04A1.7 1.7 0 0 0 19.4 15Z" />
+              </svg>
+            </a>
+          </div>
+        </header>
+
+        <section class="hh-stage">
+          <section class="hh-welcome" id="welcomePanel" aria-label="Prompt starters">
+            <p class="hh-ready"><span></span>Assistant ready</p>
+            <h2>What can <em>Hajihaz</em> find<br />for you today?</h2>
+            <p>Your private knowledge first. The web when it has to.</p>
+            <div class="hh-starters" id="starterPrompts">
+              <button type="button" data-prompt="Who is Haji?">
+                <span>Knowledge</span>
+                Who is Haji?
+                <small>Saved context</small>
+              </button>
+              <button type="button" data-prompt="What businesses does Haji own?">
+                <span>Profile</span>
+                What businesses does Haji own?
+                <small>Grounded summary</small>
+              </button>
+              <button type="button" data-prompt="What is the capital of France?">
+                <span>General</span>
+                What is the capital of France?
+                <small>Direct answer</small>
+              </button>
+            </div>
+          </section>
+
+          <section class="hh-messages" id="messageList" aria-live="polite" aria-label="Conversation messages"></section>
+        </section>
+
+        <form class="hh-composer" id="chatForm">
+          <label class="sr-only" for="chatInput">Message HajiHaz AI</label>
+          <textarea
+            id="chatInput"
+            name="message"
+            rows="1"
+            maxlength="4000"
+            autocomplete="off"
+            placeholder="Ask anything..."
+          ></textarea>
+          <div class="hh-composer-bar">
+            <label class="hh-mode">
+              <span class="sr-only">Answer mode</span>
+              <select id="answerMode" name="answer_mode" aria-label="Answer mode">
+                <option value="balanced">Balanced</option>
+                <option value="concise">Concise</option>
+                <option value="detailed">Detailed</option>
+                <option value="strategic">Strategic</option>
+                <option value="founder">Founder tone</option>
+              </select>
+            </label>
+            <p id="chatError" class="hh-error" role="alert" hidden></p>
+            <button class="hh-tool" id="clearThreadButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16M10 11v6M14 11v6M6 7l1 14h10l1-14M9 7V4h6v3" />
+              </svg>
+              <span>Clear</span>
+            </button>
+            <button class="hh-send" id="sendButton" type="submit" aria-label="Send message">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 19V5M5 12l7-7 7 7" />
+              </svg>
+            </button>
+          </div>
+          <p class="hh-hint">Hajihaz can make mistakes. Verify important details.</p>
+        </form>
+      </section>
+    </main>
+
+    <script defer src="/preview/hajihaz-ui.js?v=20260512a"></script>
+  </body>
+</html>

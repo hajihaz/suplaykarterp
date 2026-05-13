@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: hajihaz-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: hajihaz-data
+      mountPath: /app/backend/data
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: BACKEND_HOST
+        value: 0.0.0.0
+      - key: PORT
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@hajihaz.local
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+
+  - type: web
+    name: hajihaz-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    plan: starter
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOSTNAME
+        value: 0.0.0.0
+      - key: PORT
+        sync: false
+      - key: API_BASE_HOSTPORT
+        fromService:
+          type: web
+          name: hajihaz-backend
+          property: hostport

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; connect-src 'self' http://127.0.0.1:8000 http://localhost:8000; img-src 'self' data:; style-src 'self'; script-src 'self'"
+    />
+    <title>HajiHaz AI New UI</title>
+    <meta
+      name="description"
+      content="HajiHaz AI is a secure knowledge-first assistant for grounded chat, business guidance, and controlled AI retrieval."
+    />
+    <link rel="canonical" href="https://hajihazai.allbeesolutions.com/new-ui" />
+    <meta property="og:title" content="HajiHaz AI" />
+    <meta
+      property="og:description"
+      content="A secure knowledge-first AI assistant for grounded chat and practical business guidance."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hajihazai.allbeesolutions.com/new-ui" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/preview/hajihaz-ui.css?v=20260512b" />
+  </head>
+  <body>
+    <main class="hh-shell" data-app="hajihaz-ai">
+      <aside class="hh-sidebar" aria-label="Conversation sidebar">
+        <div class="hh-brand">
+          <div class="hh-mark" aria-hidden="true">HH</div>
+          <div>
+            <a class="hh-logo" href="/new-ui" aria-label="HajiHaz AI new UI home">Hajihaz<span>·</span>ai</a>
+            <p>Knowledge · First</p>
+          </div>
+        </div>
+
+        <button class="hh-primary hh-new-chat" id="newChatButton" type="button">
+          <span aria-hidden="true">+</span>
+          New conversation
+        </button>
+
+        <label class="hh-search">
+          <span class="sr-only">Search conversations</span>
+          <input id="conversationSearch" type="search" placeholder="Search conversations" autocomplete="off" />
+        </label>
+
+        <nav class="hh-conversations" id="conversationList" aria-label="Saved conversations"></nav>
+
+        <div class="hh-sidebar-footer">
+          <div class="hh-avatar" aria-hidden="true">H</div>
+          <div>
+            <strong>HajiHaz AI</strong>
+            <span>Staged new UI · FastAPI</span>
+          </div>
+          <a class="hh-icon-link" href="/admin" aria-label="Open admin workspace">Admin</a>
+        </div>
+      </aside>
+
+      <section class="hh-chat" aria-label="Chat with HajiHaz AI">
+        <header class="hh-topbar">
+          <div>
+            <p class="hh-kicker">Live conversation</p>
+            <h1 id="conversationTitle">New conversation</h1>
+            <span id="conversationSubtitle">Private knowledge first · Web fallback when available</span>
+          </div>
+          <div class="hh-top-actions">
+            <span class="hh-status" id="connectionStatus" data-state="ready">Ready</span>
+            <a class="hh-secondary" href="/admin">Admin workspace</a>
+          </div>
+        </header>
+
+        <section class="hh-welcome" id="welcomePanel" aria-label="Prompt starters">
+          <p class="hh-kicker"><span></span> Assistant ready</p>
+          <h2>What can <em>Hajihaz</em> find for you today?</h2>
+          <p>
+            Ask in plain words. This frontend sends your message to the existing <code>/chat</code>
+            endpoint, keeps short local history for follow-ups, and renders the backend answer safely.
+          </p>
+          <div class="hh-starters" id="starterPrompts">
+            <button type="button" data-prompt="Who is Haji?">
+              <span>Knowledge</span>
+              Who is Haji?
+              <small>Use saved context first</small>
+            </button>
+            <button type="button" data-prompt="What businesses does Haji own?">
+              <span>Profile</span>
+              What businesses does Haji own?
+              <small>Grounded business summary</small>
+            </button>
+            <button type="button" data-prompt="What is the capital of France?">
+              <span>General</span>
+              What is the capital of France?
+              <small>Clean direct web/generic answer</small>
+            </button>
+          </div>
+        </section>
+
+        <section class="hh-messages" id="messageList" aria-live="polite" aria-label="Conversation messages"></section>
+
+        <form class="hh-composer" id="chatForm">
+          <label class="sr-only" for="chatInput">Message HajiHaz AI</label>
+          <textarea
+            id="chatInput"
+            name="message"
+            rows="3"
+            maxlength="4000"
+            autocomplete="off"
+            placeholder="Ask about Haji, saved knowledge, strategy, documents, or a general question..."
+          ></textarea>
+          <div class="hh-composer-bar">
+            <label class="hh-mode">
+              <span>Mode</span>
+              <select id="answerMode" name="answer_mode">
+                <option value="balanced">Balanced</option>
+                <option value="concise">Concise</option>
+                <option value="detailed">Detailed</option>
+                <option value="strategic">Strategic</option>
+                <option value="founder">Founder tone</option>
+              </select>
+            </label>
+            <p id="chatError" class="hh-error" role="alert" hidden></p>
+            <button class="hh-secondary" id="clearThreadButton" type="button">Clear</button>
+            <button class="hh-primary" id="sendButton" type="submit">Send</button>
+          </div>
+          <p class="hh-hint">Press Cmd/Ctrl + Enter to send. Responses are inserted as text, not raw HTML.</p>
+        </form>
+      </section>
+    </main>
+
+    <script defer src="/preview/hajihaz-ui.js?v=20260512b"></script>
+  </body>
+</html>

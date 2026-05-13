@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suplaykart ERP Admin</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Protected Suplaykart ERP admin workspace for workforce operations, knowledge, runtime, and analytics management."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href="/admin" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/preview/styles.css?v=20260513-enterprise-os1" />
+    <style>
+      .admin-locked [data-admin-gated="true"] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body class="admin-body">
+    <main class="page-shell admin-locked" data-admin-page="true">
+      <section class="hero-card compact">
+        <div class="hero-copy">
+          <span class="eyebrow">Enterprise workforce OS</span>
+          <h1>Suplaykart ERP command center</h1>
+          <p>
+            Coordinate workforce knowledge, admin access, runtime health, source quality, and executive operating
+            telemetry from one protected command surface.
+          </p>
+          <div class="action-row">
+            <a class="secondary-button link-button" href="/">Open assistant</a>
+          </div>
+        </div>
+        <div class="hero-meta" data-admin-gated="true" hidden>
+          <div class="meta-tile">
+            <span>Chat</span>
+            <strong><a href="/">Open assistant</a></strong>
+          </div>
+          <div class="meta-tile">
+            <span>Browser</span>
+            <strong id="adminBrowserStatus">Browser ready</strong>
+          </div>
+          <div class="meta-tile">
+            <span>Session</span>
+            <strong id="adminSessionLabel">Guest mode</strong>
+            <small id="adminSessionHint">Login to manage the library.</small>
+          </div>
+          <div class="meta-tile">
+            <span>Ops score</span>
+            <strong id="adminOpsScore">Locked</strong>
+            <small>Live health, security, and provider posture.</small>
+          </div>
+          <div class="meta-tile">
+            <span>Request window</span>
+            <strong id="adminRequestsToday">0</strong>
+            <small id="adminGroundingRate">Waiting for analytics.</small>
+          </div>
+        </div>
+      </section>
+
+      <aside class="admin-command-rail" aria-label="Admin command center">
+        <div class="admin-rail-brand">
+          <span class="admin-rail-mark" aria-hidden="true">SK</span>
+          <div>
+            <strong>Suplaykart ERP</strong>
+            <small>Workforce operating system</small>
+          </div>
+        </div>
+
+        <nav class="admin-rail-nav" aria-label="Workspace sections">
+          <a href="/">Assistant</a>
+          <a href="#adminDashboardPanel">Dashboard</a>
+          <a href="#adminComposerPanel">Knowledge</a>
+          <a href="#adminLibraryPanel">Library</a>
+          <a href="#adminMonitorPanel">Monitoring</a>
+          <a href="#adminProfilePanel">Profile</a>
+        </nav>
+
+        <section class="admin-appearance-card" aria-label="Appearance">
+          <div class="admin-appearance-head">
+            <strong>Appearance</strong>
+            <small id="adminThemeStatus">System</small>
+          </div>
+          <div class="admin-theme-options" role="group" aria-label="Admin color theme">
+            <button class="admin-theme-option" data-admin-theme-option="system" type="button">System</button>
+            <button class="admin-theme-option" data-admin-theme-option="dark" type="button">Dark</button>
+            <button class="admin-theme-option" data-admin-theme-option="light" type="button">Light</button>
+          </div>
+        </section>
+
+        <section class="admin-profile-card" id="adminProfilePanel" aria-label="Admin profile">
+          <div class="admin-profile-head">
+            <button class="admin-profile-avatar" id="adminProfileAvatarButton" type="button" aria-label="Edit admin avatar">
+              <span id="adminProfileAvatarPreview">SK</span>
+            </button>
+            <div>
+              <strong id="adminProfileNameLabel">Workspace operator</strong>
+              <span id="adminProfileEmail">Login required</span>
+            </div>
+            <input id="adminProfileAvatarInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+          </div>
+
+          <div class="admin-profile-fields">
+            <label class="field-group" for="adminProfileDisplayNameInput">
+              <span class="field-label">Display name</span>
+              <input id="adminProfileDisplayNameInput" maxlength="80" placeholder="Operations lead" />
+            </label>
+            <label class="field-group" for="adminProfileRoleInput">
+              <span class="field-label">Role title</span>
+              <input id="adminProfileRoleInput" maxlength="80" placeholder="ERP command lead" />
+            </label>
+            <label class="field-group" for="adminProfileTimezoneInput">
+              <span class="field-label">Timezone</span>
+              <input id="adminProfileTimezoneInput" maxlength="80" placeholder="Asia/Kolkata" />
+            </label>
+            <label class="field-group" for="adminProfileBioInput">
+              <span class="field-label">Operator note</span>
+              <textarea id="adminProfileBioInput" maxlength="500" rows="3" placeholder="Operational context, escalation preferences, and leadership notes."></textarea>
+            </label>
+            <label class="toggle-card compact-toggle" for="adminProfileNotificationsInput">
+              <span class="toggle-copy">
+                <strong>Notify on system changes</strong>
+                <small>Keep this profile ready for future alert delivery.</small>
+              </span>
+              <input id="adminProfileNotificationsInput" type="checkbox" />
+            </label>
+          </div>
+
+          <div class="action-row rail-actions">
+            <button class="secondary-button secondary-button--inline" id="adminProfileSaveButton" type="button">Save profile</button>
+            <span class="helper-text" id="adminProfileStatus">Profile locked.</span>
+          </div>
+        </section>
+
+        <section class="admin-rail-metrics" id="adminDashboardPanel" aria-label="Realtime command metrics">
+          <div class="admin-meter-row">
+            <span>CPU</span>
+            <strong id="adminRailCpu">0.00</strong>
+            <i class="admin-meter" id="adminCpuMeter" style="--meter: 0%"></i>
+          </div>
+          <div class="admin-meter-row">
+            <span>Memory</span>
+            <strong id="adminRailMemory">0%</strong>
+            <i class="admin-meter" id="adminMemoryMeter" style="--meter: 0%"></i>
+          </div>
+          <div class="admin-meter-row">
+            <span>Disk</span>
+            <strong id="adminRailDisk">0%</strong>
+            <i class="admin-meter" id="adminDiskMeter" style="--meter: 0%"></i>
+          </div>
+        </section>
+      </aside>
+
+      <section class="admin-grid admin-workspace">
+        <div class="admin-main-stack">
+          <section class="panel-card">
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Authentication</span>
+                <h2>Admin access</h2>
+              </div>
+              <span class="status-pill idle" id="adminSessionPill">Offline</span>
+            </div>
+            <p class="helper-text">
+              Use the local admin account to unlock document management, runtime diagnostics, and live knowledge edits.
+            </p>
+
+            <div class="info-grid">
+              <div class="stat-card">
+                <span>Workspace account</span>
+                <strong id="adminWorkspaceAccount">Protected</strong>
+              </div>
+              <div class="stat-card">
+                <span>Session state</span>
+                <strong id="adminLoginStatus">Not authenticated</strong>
+              </div>
+            </div>
+
+            <div class="field-grid two-col">
+              <label class="field-group" for="adminEmailInput">
+                <span class="field-label">Admin email</span>
+                <input id="adminEmailInput" placeholder="Admin email" />
+              </label>
+              <label class="field-group" for="adminPasswordInput">
+                <span class="field-label">Password</span>
+                <input id="adminPasswordInput" placeholder="Password" type="password" />
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button class="primary-button" id="adminLoginButton" type="button">Unlock workspace</button>
+              <button class="secondary-button" id="adminLogoutButton" type="button">Clear session</button>
+            </div>
+
+            <div class="stats-grid admin-stats-grid" data-admin-gated="true" hidden>
+              <div class="stat-card">
+                <span>Documents</span>
+                <strong id="adminDocumentsCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>Chunks</span>
+                <strong id="adminChunksCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>Groups</span>
+                <strong id="adminGroupsCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>Sources</span>
+                <strong id="adminSourcesCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>AI runtime</span>
+                <strong id="adminAiProvider">Locked</strong>
+              </div>
+              <div class="stat-card">
+                <span>Debug pulse</span>
+                <strong id="adminCheckStatus">Waiting</strong>
+              </div>
+              <div class="stat-card">
+                <span>Provider status</span>
+                <strong id="adminProviderReady">Login required</strong>
+              </div>
+              <div class="stat-card">
+                <span>Ollama</span>
+                <strong id="adminOllamaReady">Login required</strong>
+              </div>
+              <div class="stat-card">
+                <span>Library summary</span>
+                <strong id="adminLibrarySummary">No data yet</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden id="adminComposerPanel">
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Access control</span>
+                <h2>Admins and passwords</h2>
+              </div>
+              <span class="status-pill idle" id="adminAccessPill">Locked</span>
+            </div>
+            <p class="helper-text">
+              Change your own password here and add another admin account when you want someone else to manage the
+              workspace too.
+            </p>
+
+            <div class="info-grid">
+              <div class="stat-card">
+                <span>Current admin</span>
+                <strong id="adminCurrentUserEmail">Login required</strong>
+              </div>
+              <div class="stat-card">
+                <span>Admin users</span>
+                <strong id="adminUsersCount">0</strong>
+              </div>
+            </div>
+
+            <div class="form-stack">
+              <div class="section-head">
+                <h2>Change your password</h2>
+                <span id="adminPasswordStatus">Waiting</span>
+              </div>
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminCurrentPasswordInput">
+                  <span class="field-label">Current password</span>
+                  <input id="adminCurrentPasswordInput" placeholder="Current password" type="password" />
+                </label>
+                <label class="field-group" for="adminNewPasswordInput">
+                  <span class="field-label">New password</span>
+                  <input id="adminNewPasswordInput" placeholder="New password" type="password" />
+                </label>
+              </div>
+              <label class="field-group" for="adminConfirmPasswordInput">
+                <span class="field-label">Confirm new password</span>
+                <input id="adminConfirmPasswordInput" placeholder="Confirm new password" type="password" />
+              </label>
+              <div class="action-row">
+                <button class="secondary-button" id="adminChangePasswordButton" type="button">Update password</button>
+                <span class="helper-text">Use at least 8 characters for the new password.</span>
+              </div>
+            </div>
+
+            <div class="form-stack">
+              <div class="section-head">
+                <h2>Add another admin</h2>
+                <span id="adminCreateUserStatus">Waiting</span>
+              </div>
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminNewUserEmailInput">
+                  <span class="field-label">New admin email</span>
+                  <input id="adminNewUserEmailInput" placeholder="ops@yourcompany.com" />
+                </label>
+                <label class="field-group" for="adminNewUserPasswordInput">
+                  <span class="field-label">Password</span>
+                  <input id="adminNewUserPasswordInput" placeholder="Password for the new admin" type="password" />
+                </label>
+              </div>
+              <label class="field-group" for="adminConfirmUserPasswordInput">
+                <span class="field-label">Confirm password</span>
+                <input id="adminConfirmUserPasswordInput" placeholder="Confirm password" type="password" />
+              </label>
+              <div class="action-row">
+                <button class="secondary-button" id="adminCreateUserButton" type="button">Add admin</button>
+                <span class="helper-text">New admins can log in and manage the full workspace.</span>
+              </div>
+            </div>
+
+            <div class="section-head">
+              <h2>Admin directory</h2>
+              <span id="adminDirectorySummary">0 accounts</span>
+            </div>
+            <div class="document-grid" id="adminUsersList"></div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Knowledge composer</span>
+                <h2 id="adminComposerHeading">Add knowledge</h2>
+              </div>
+              <span class="status-pill idle" id="adminComposerState">Ready to draft</span>
+            </div>
+            <p class="helper-text">
+              Add SOPs, FAQs, service notes, business context, or customer-facing references. The assistant will start
+              grounding answers in this material as soon as it is saved.
+            </p>
+
+            <div class="form-stack">
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminTitleInput">
+                  <span class="field-label">Document title</span>
+                  <input id="adminTitleInput" placeholder="Quarterly playbook, pricing notes, support SOP..." />
+                </label>
+                <label class="field-group" for="adminGroupInput">
+                  <span class="field-label">Group</span>
+                  <input id="adminGroupInput" placeholder="Operations, Sales, Research..." />
+                </label>
+              </div>
+
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminTagsInput">
+                  <span class="field-label">Tags</span>
+                  <input id="adminTagsInput" placeholder="sales, support, operations" />
+                </label>
+                <label class="field-group" for="adminSourceUrlInput">
+                  <span class="field-label">Source URL</span>
+                  <input id="adminSourceUrlInput" placeholder="Optional source reference link" />
+                </label>
+              </div>
+
+              <label class="toggle-card" for="adminCorePersonaInput">
+                <span class="toggle-copy">
+                  <strong>Core persona source</strong>
+                  <small>Use this for identity, business, education, and HajiHaz AI documents that should lead owner-profile answers.</small>
+                </span>
+                <input id="adminCorePersonaInput" type="checkbox" />
+              </label>
+
+              <label class="field-group" for="adminContentInput">
+                <span class="field-label">Content</span>
+                <textarea
+                  class="admin-textarea"
+                  id="adminContentInput"
+                  rows="10"
+                  placeholder="Paste the knowledge you want the assistant to retrieve later..."
+                ></textarea>
+              </label>
+            </div>
+
+            <div class="action-row">
+              <button class="secondary-button" hidden id="adminCancelEditButton" type="button">Cancel edit</button>
+              <button class="primary-button" id="adminSaveButton" type="button">Save document</button>
+              <span class="helper-text">Documents are chunked automatically for retrieval.</span>
+            </div>
+            <p class="error-text" hidden id="adminErrorText"></p>
+          </section>
+        </div>
+
+        <aside class="admin-side-stack">
+          <section class="panel-card accent-panel">
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Runtime pulse</span>
+                <h2>System health</h2>
+              </div>
+              <span class="status-pill idle" id="adminRuntimePulsePill">Checking</span>
+            </div>
+            <p class="sidebar-note" id="adminRuntimeSummary">
+              Checking the live provider from this server now.
+            </p>
+            <div class="runtime-alert" hidden id="adminRuntimeAlert">
+              <div class="runtime-alert-copy">
+                <strong id="adminRuntimeAlertTitle">Provider issue detected</strong>
+                <p id="adminRuntimeAlertText">We could not reach the configured provider yet.</p>
+              </div>
+              <button class="secondary-button secondary-button--inline" id="adminRuntimeRetryButton" type="button">Retry</button>
+            </div>
+            <div class="info-grid compact">
+              <div class="stat-card">
+                <span>Provider</span>
+                <strong id="adminSideProvider">Checking…</strong>
+              </div>
+              <div class="stat-card">
+                <span>Readiness</span>
+                <strong id="adminSideReady">Checking…</strong>
+              </div>
+              <div class="stat-card">
+                <span>Uptime</span>
+                <strong id="adminUptime">Checking…</strong>
+              </div>
+              <div class="stat-card">
+                <span>Last check</span>
+                <strong id="adminLastChecked">Waiting</strong>
+              </div>
+              <div class="stat-card">
+                <span>Alerts</span>
+                <strong id="adminAlertCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span>CPU load</span>
+                <strong id="adminCpuLoad">0.00</strong>
+              </div>
+              <div class="stat-card">
+                <span>Memory</span>
+                <strong id="adminMemoryUsage">0%</strong>
+              </div>
+              <div class="stat-card">
+                <span>Disk</span>
+                <strong id="adminDiskUsage">0%</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Upload guide</span>
+                <h2>Best knowledge to add</h2>
+              </div>
+            </div>
+            <ul class="feature-list">
+              <li>Business FAQs, policies, SOPs, and service explanations.</li>
+              <li>Short factual documents with clear titles and focused tags.</li>
+              <li>Pricing notes, client workflows, and internal operating playbooks.</li>
+              <li>Specific references you want the chat experience to cite back accurately.</li>
+            </ul>
+            <p class="helper-text">
+              Retrieval quality improves when documents are structured, direct, and split by topic instead of being one
+              huge dump.
+            </p>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Bulk import</span>
+                <h2>Upload document files</h2>
+              </div>
+            </div>
+            <p class="helper-text">
+              Import multiple documents at once from `.txt`, `.md`, `.json`, `.csv`, `.pdf`, or `.docx` files.
+              Duplicate documents are skipped automatically during import.
+            </p>
+            <div class="form-stack">
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminImportGroupInput">
+                  <span class="field-label">Import group</span>
+                  <input id="adminImportGroupInput" placeholder="Operations, Research..." />
+                </label>
+                <label class="field-group" for="adminImportTagsInput">
+                  <span class="field-label">Default tags</span>
+                  <input id="adminImportTagsInput" placeholder="uploads, faq, source docs" />
+                </label>
+              </div>
+              <label class="field-group" for="adminImportInput">
+                <span class="field-label">Select files</span>
+                <input id="adminImportInput" multiple type="file" accept=".txt,.md,.markdown,.json,.csv,.log,.text,.pdf,.docx" />
+              </label>
+              <button class="secondary-button" id="adminImportButton" type="button">Import files</button>
+              <p class="helper-text" id="adminImportStatus">No files selected.</p>
+            </div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Page import</span>
+                <h2>Import website or page</h2>
+              </div>
+            </div>
+            <p class="helper-text">
+              Pull a public page directly into the library so the assistant can cite and summarize it later.
+            </p>
+            <div class="form-stack">
+              <label class="field-group" for="adminUrlInput">
+                <span class="field-label">Page URL</span>
+                <input id="adminUrlInput" placeholder="https://example.com/article" />
+              </label>
+              <div class="field-grid two-col">
+                <label class="field-group" for="adminUrlGroupInput">
+                  <span class="field-label">Group</span>
+                  <input id="adminUrlGroupInput" placeholder="Research, Competitors..." />
+                </label>
+                <label class="field-group" for="adminUrlTagsInput">
+                  <span class="field-label">Tags</span>
+                  <input id="adminUrlTagsInput" placeholder="market, trends, external" />
+                </label>
+              </div>
+              <button class="secondary-button" id="adminUrlImportButton" type="button">Import page</button>
+              <p class="helper-text" id="adminUrlImportStatus">No page imported yet.</p>
+            </div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Library export</span>
+                <h2>Download your knowledge base</h2>
+              </div>
+            </div>
+            <p class="helper-text">
+              Export the full library as JSON, CSV, or Markdown for backup, migration, or offline review.
+            </p>
+            <div class="document-actions">
+              <button class="secondary-button" data-export-format="json" type="button">Export JSON</button>
+              <button class="secondary-button" data-export-format="csv" type="button">Export CSV</button>
+              <button class="secondary-button" data-export-format="markdown" type="button">Export Markdown</button>
+            </div>
+          </section>
+
+          <section class="panel-card" data-admin-gated="true" hidden>
+            <div class="panel-intro">
+              <div>
+                <span class="eyebrow">Backups</span>
+                <h2>Backup and retention</h2>
+              </div>
+            </div>
+            <p class="helper-text">
+              Create a full runtime backup with the database, library export, config snapshot, and optional logs. Old
+              archives are cleaned automatically by retention rules.
+            </p>
+            <div class="action-row">
+              <button class="secondary-button" id="adminCreateBackupButton" type="button">Create backup</button>
+              <button class="secondary-button" id="adminCleanupBackupsButton" type="button">Clean old backups</button>
+            </div>
+            <p class="helper-text" id="adminBackupStatus">No backup created in this session.</p>
+            <div class="debug-list" id="adminBackupsList"></div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="panel-card document-list" data-admin-gated="true" hidden id="adminLibraryPanel">
+        <div class="section-head">
+          <h2>Current knowledge base</h2>
+          <span id="adminDocumentItemsCount">0 items</span>
+        </div>
+        <p class="helper-text">
+          This is the live library feeding the assistant. Each saved item becomes part of the retrieval layer.
+        </p>
+        <label class="field-group" for="adminSearchInput">
+          <span class="field-label">Search library</span>
+          <input id="adminSearchInput" placeholder="Find by title, content, tags, or source" />
+        </label>
+        <div class="empty-state" id="adminEmptyState">
+          No knowledge added yet. Unlock the workspace and add your first document to seed the assistant.
+        </div>
+        <div class="document-grid" hidden id="adminDocumentsGrid"></div>
+      </section>
+
+      <section class="admin-grid monitor-grid" data-admin-gated="true" hidden id="adminMonitorPanel">
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Source health</h2>
+            <span id="adminSourceHealthCount">0 sources</span>
+          </div>
+          <p class="helper-text">
+            See which source types and groups are actively feeding retrieval, plus the latest update activity.
+          </p>
+          <div class="debug-list" id="adminSourceHealthList"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Recent alerts</h2>
+            <span id="adminAlertsSummary">0 alerts</span>
+          </div>
+          <p class="helper-text">
+            Runtime issues and degraded checks show up here so you can spot ingestion or provider problems quickly.
+          </p>
+          <div class="debug-list" id="adminAlertsList"></div>
+        </section>
+      </section>
+
+      <section class="admin-grid monitor-grid" data-admin-gated="true" hidden>
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Health checks</h2>
+            <span id="adminHealthChecksSummary">0 checks</span>
+          </div>
+          <div class="debug-list" id="adminHealthChecksList"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Request logs</h2>
+            <span id="adminLogsSummary">0 events</span>
+          </div>
+          <div class="debug-list" id="adminLogsList"></div>
+        </section>
+      </section>
+
+      <section class="admin-grid monitor-grid" data-admin-gated="true" hidden>
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Usage analytics</h2>
+            <span id="adminAnalyticsSummary">0 requests</span>
+          </div>
+          <p class="helper-text">
+            Watch how often the assistant is being used, which response modes are most common, and how grounded the
+            answers are over time.
+          </p>
+          <div class="debug-list" id="adminAnalyticsList"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Secret and deploy audit</h2>
+            <span id="adminSecretAuditSummary">Waiting</span>
+          </div>
+          <p class="helper-text">
+            This audit checks whether critical runtime secrets, alert targets, and public deployment settings are in a
+            healthy state without exposing the actual secret values.
+          </p>
+          <div class="debug-list" id="adminSecretAuditList"></div>
+        </section>
+      </section>
+
+      <section class="admin-grid monitor-grid" data-admin-gated="true" hidden>
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Metric history</h2>
+            <span id="adminMetricHistorySummary">0 snapshots</span>
+          </div>
+          <div class="debug-list" id="adminMetricHistoryList"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <h2>Maintenance controls</h2>
+            <span id="adminMaintenanceSummary">Standby</span>
+          </div>
+          <p class="helper-text">
+            Run a live watchdog pass to snapshot server health, prune old operational data, and clean up expired
+            backups.
+          </p>
+          <div class="action-row">
+            <button class="secondary-button" id="adminMaintenanceButton" type="button">Run maintenance</button>
+          </div>
+          <div class="debug-list" id="adminMaintenanceList"></div>
+        </section>
+      </section>
+
+      <section class="panel-card" data-admin-gated="true" hidden>
+        <div class="section-head">
+          <h2>Application log tail</h2>
+          <span id="adminLogTailSummary">0 lines</span>
+        </div>
+        <p class="helper-text">
+          This is the recent rotating app log so you can inspect runtime events without opening the server shell.
+        </p>
+        <div class="debug-list" id="adminLogTailList"></div>
+      </section>
+    </main>
+
+    <script defer src="/preview/app.js?v=20260513-enterprise-os1"></script>
+  </body>
+</html>

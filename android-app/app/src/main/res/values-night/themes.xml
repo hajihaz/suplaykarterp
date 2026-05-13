@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.HajiHazAI" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/surface_dark</item>
+        <item name="android:navigationBarColor">@color/surface_dark</item>
+        <item name="android:windowBackground">@color/surface_dark</item>
+        <item name="colorPrimary">@color/brand_accent</item>
+        <item name="colorPrimaryVariant">@color/brand_accent</item>
+        <item name="colorSecondary">@color/brand_accent</item>
+        <item name="colorOnPrimary">@color/button_text_dark</item>
+    </style>
+
+    <style name="Theme.HajiHazAI.Splash" parent="Theme.HajiHazAI">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+</resources>

@@ -1,0 +1,8 @@
+[Unit]
+Description=HajiHaz AI scheduled maintenance
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/htdocs/hajihaz.82.29.160.39.sslip.io
+ExecStart=%h/htdocs/hajihaz.82.29.160.39.sslip.io/ops/vps/manage_hajihaz.sh maintenance

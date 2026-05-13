@@ -1,0 +1,8 @@
+<resources>
+    <color name="brand_accent">#4897B1</color>
+    <color name="surface_dark">#0B1014</color>
+    <color name="surface_dark_alt">#111921</color>
+    <color name="text_secondary">#B4C0CB</color>
+    <color name="splash_background">#091015</color>
+    <color name="button_text_dark">#041218</color>
+</resources>

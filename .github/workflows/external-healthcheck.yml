@@ -1,0 +1,22 @@
+name: External Health Check
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe public health endpoint
+        env:
+          TARGET_URL: ${{ secrets.HAJIHAZ_HEALTH_URL }}
+        run: |
+          if [ -z "$TARGET_URL" ]; then
+            echo "Missing HAJIHAZ_HEALTH_URL secret"
+            exit 1
+          fi
+          body="$(curl -fsSL "$TARGET_URL")"
+          echo "$body"
+          echo "$body" | grep '"status":"ok"'

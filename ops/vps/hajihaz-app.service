@@ -1,0 +1,14 @@
+[Unit]
+Description=HajiHaz AI FastAPI app
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/htdocs/hajihaz.82.29.160.39.sslip.io
+ExecStart=%h/htdocs/hajihaz.82.29.160.39.sslip.io/ops/vps/manage_hajihaz.sh start
+ExecStop=%h/htdocs/hajihaz.82.29.160.39.sslip.io/ops/vps/manage_hajihaz.sh stop
+ExecReload=%h/htdocs/hajihaz.82.29.160.39.sslip.io/ops/vps/manage_hajihaz.sh restart
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

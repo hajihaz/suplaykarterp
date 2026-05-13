@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">HajiHaz AI</string>
+    <string name="splash_tagline">AI workspace by AllBee Solutions</string>
+    <string name="loading_message">Opening your live AI workspace…</string>
+    <string name="error_title">We could not load HajiHaz AI</string>
+    <string name="error_no_internet">No internet connection detected. Check your network and try again.</string>
+    <string name="error_generic">The app could not reach the live service right now. Please try again in a moment.</string>
+    <string name="error_http">The service responded with an error. Please retry or open the website in your browser.</string>
+    <string name="retry">Retry</string>
+    <string name="open_in_browser">Open in browser</string>
+</resources>
