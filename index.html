@@ -3541,7 +3541,7 @@
     const emails = {
       employee: 'rajan@suplaykart.test',
       manager:  'arif@suplaykart.test',
-      admin:    'hajihaz',
+      admin:    '',
     };
     document.getElementById('loginEmail').value = emails[role];
   }
@@ -3549,30 +3549,27 @@
     const id = document.getElementById('loginEmail')?.value || '';
     const pw = document.querySelector('#login input[type="password"]')?.value || '';
 
-    /* Fixed-admin shortcut still resolves the role chip locally so the UI feels
-       instant — but the actual auth call goes to Supabase below. */
-    if (isFixedAdminLogin(id, pw)) {
-      state.role = 'admin';
-      document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
-      document.querySelector('.role-chip[data-role="admin"]')?.classList.add('active');
+    // Never admit a session without server-side authentication.
+    if (!SuplaykartCloud.ready()) {
+      toast('error', 'Sign in unavailable', 'Secure sign-in requires a connection to the authentication service.');
+      return;
     }
 
-    /* Try Supabase auth first. If we're offline / config missing, fall back
-       to the local demo flow so the file still works on a plain double-click. */
+    /* Authenticate with Supabase. No anonymous or offline admin/demo fallback. */
     if (SuplaykartCloud.ready()) {
       const btn = document.querySelector('#login .btn-primary');
       if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
       try {
-        const result = await SuplaykartCloud.signIn(id, pw === '••••••••' ? FIXED_ADMIN.password : pw);
+        const result = await SuplaykartCloud.signIn(id, pw);
         if (!result.ok) {
           toast('error', 'Sign in failed', result.reason || 'Check your credentials');
           if (btn) { btn.disabled = false; btn.style.opacity = ''; }
           return;
         }
-        if (result.user.role && state.me[result.user.role]) {
-          state.role = result.user.role;
+        state.role = state.me[result.user.role] ? result.user.role : 'employee';
+        if (state.me[state.role]) {
           /* update the local "me" snapshot so the topbar/sidebar reflect cloud truth */
-          state.me[result.user.role].name = result.user.name || state.me[result.user.role].name;
+          state.me[state.role].name = result.user.name || state.me[state.role].name;
           if (result.profile?.avatar_url) {
             const tgt = result.user.role === 'admin' ? state.adminProfile
                       : result.user.role === 'manager' ? state.mgrProfile
@@ -3584,7 +3581,9 @@
         await hydrateFromCloud();
         setupCloudRealtime();
       } catch (e) {
-        console.warn('[auth] cloud sign-in error, falling back local:', e.message);
+        console.warn('[auth] secure sign-in error:', e.message);
+        toast('error', 'Sign in failed', 'The authentication service could not complete sign-in.');
+        return;
       } finally {
         if (btn) { btn.disabled = false; btn.style.opacity = ''; }
       }
@@ -6340,7 +6339,7 @@
       return {
         id:    u.id,
         email: u.email,
-        role:  u.user_metadata?.role || u.app_metadata?.role || 'employee',
+        role:  u.app_metadata?.role || 'employee',
         name:  u.user_metadata?.name || (u.email || '').split('@')[0],
       };
     }
@@ -6362,16 +6361,15 @@
     async function signIn(identifier, password) {
       if (!ready()) return { ok: false, reason: 'offline' };
       let email = (identifier || '').trim();
-      /* Allow login by id, email, or phone — map to email for Supabase */
-      if (email === FIXED_ADMIN.id || email === FIXED_ADMIN.phone) {
-        email = FIXED_ADMIN.email;
-      } else if (!email.includes('@')) {
+      /* Resolve usernames through the profile lookup; never hardcode admin identity. */
+      if (!email.includes('@')) {
         /* try to resolve username → email via profiles table */
         const row = await safe(
           _sb.from('profiles').select('email').eq('username', email).maybeSingle(),
           'auth.resolveUsername'
         );
         if (row?.email) email = row.email;
+        else return { ok: false, reason: 'Enter your account email address.' };
       }
       try {
         const { data, error } = await _sb.auth.signInWithPassword({ email, password });
@@ -7367,22 +7365,8 @@
     }
   }
 
-  /* TASK 5 — Fixed admin login for hajihaz / hajihaz4. Drops the user into the
-     Admin role regardless of which role chip they had selected on the login card.
-     For production, wire this to Supabase auth (see schema.sql). */
-  const FIXED_ADMIN = {
-    id: 'hajihaz',
-    password: 'hajihaz4',
-    email: 'iamhajihaz@gmail.com',
-    phone: '9489486081',
-  };
-  function isFixedAdminLogin(identifier, password) {
-    const id = String(identifier || '').trim().toLowerCase();
-    return password === FIXED_ADMIN.password &&
-           (id === FIXED_ADMIN.id ||
-            id === FIXED_ADMIN.email.toLowerCase() ||
-            id === FIXED_ADMIN.phone);
-  }
+  /* Admin identity and password are never embedded in public client code.
+     Identity is resolved by Supabase and authorization by trusted profile/app metadata. */
 
   /* Kick off Supabase init once the page is ready. Safe to call multiple times.
      We init early so the session-restore + realtime channels are warm before the
