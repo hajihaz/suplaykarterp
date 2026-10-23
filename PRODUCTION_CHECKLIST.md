@@ -18,10 +18,10 @@ A pre-launch sanity sweep. Run through this before flipping the DNS to productio
 
 ## 2. Auth
 
-- [ ] Fixed admin user created in `auth.users` — `iamhajihaz@gmail.com` / `hajihaz4`
+- [ ] Owner-controlled admin user provisioned in `auth.users` with a unique password stored outside the repository
 - [ ] `profiles.role = 'admin'` for that user
 - [ ] `employees.user_id` set on `SKT-100` to the admin's auth UUID
-- [ ] Login screen accepts `hajihaz`, `iamhajihaz@gmail.com`, and `9489486081`
+- [ ] Login accepts the configured administrator identifier and rejects invalid credentials
 - [ ] After sign-in, role chip shows **Admin**
 - [ ] Refresh the page → session auto-resumes (no re-login)
 - [ ] Sign out → returns to login screen, no leaked state
