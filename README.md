@@ -71,7 +71,7 @@ The app talks directly to your Supabase project `edbvlpippapjookhwbzw`. The anon
 If you need to bootstrap from scratch:
 
 1. Open Supabase → SQL editor → paste `schema.sql` → Run.
-2. Create the fixed admin user — see **Admin seed** below.
+2. Provision an administrator securely through Supabase Auth using a unique password and a private, owner-controlled setup procedure.
 3. Open `index.html` (locally or deployed). Sign in.
 
 ### Credentials block
@@ -91,34 +91,13 @@ To rotate keys, just edit those two lines and re-deploy. **Never put your `servi
 
 ---
 
-## Admin seed (one time)
+## Administrator provisioning and incident response
 
-Your fixed admin spec:
-
-```
-username: hajihaz
-email:    iamhajihaz@gmail.com
-phone:    9489486081
-password: hajihaz4
-```
-
-1. Supabase → **Authentication → Users → Add user**.
-   - Email `iamhajihaz@gmail.com`, password `hajihaz4`, **auto-confirm: on**.
-2. Copy the new user's UUID.
-3. Supabase → SQL editor → run (replace `<UUID>`):
-
-```sql
-update public.profiles
-set role='admin', full_name='Hajihaz', username='hajihaz',
-    phone='9489486081', address='Suplaykart HQ, Nagore, TN'
-where id='<UUID>';
-
-insert into public.employees (id, user_id, name, role, dept, status, score, color)
-values ('SKT-100', '<UUID>', 'Hajihaz', 'Founder', 'Management', 'Active', 100, '#4f8cff')
-on conflict (id) do update set user_id = excluded.user_id;
-```
-
-The login screen now accepts `hajihaz`, `iamhajihaz@gmail.com`, or `9489486081` with password `hajihaz4` and routes straight to Admin.
+1. Create or recover the administrator account in the authenticated Supabase dashboard (Authentication → Users).
+2. Use a strong, unique password stored in a password manager. **Never commit passwords, recovery codes, or admin setup credentials.**
+3. Assign administrator privileges through a verified, owner-only setup process. Check role-based access and row-level security before production use.
+4. If credentials have ever appeared in a public repository, rotate them immediately, review active sessions and logs, and assume previous Git history and forks retain copies.
+5. Store any private setup details outside this public repository. Public publishable keys are not authentication secrets; service-role and secret keys must never be exposed.
 
 ---
 
