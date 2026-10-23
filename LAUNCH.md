@@ -26,16 +26,16 @@ Day-of go-live sequence for Suplaykart Staff. Follow top to bottom — each step
 **Then create the admin user via the dashboard:**
 
 1. Authentication → Users → **Add user**
-   - Email: `iamhajihaz@gmail.com`
-   - Password: `hajihaz4`
-   - Auto-confirm: **ON**
+   - Email: **owner-controlled admin address (not documented publicly)**
+   - Password: **unique randomly generated credential; never commit or share it**
+   - Auto-confirm: **ON only after verifying account ownership**
 2. Copy the new user's UUID.
 3. SQL editor → run (replace `<UUID>`):
 
 ```sql
 update public.profiles
    set role='admin', full_name='Hajihaz', username='hajihaz',
-       phone='9489486081', address='Suplaykart HQ, Nagore, TN'
+       phone=NULL, address='Suplaykart HQ, Nagore, TN'
  where id='<UUID>';
 
 insert into public.employees (id, user_id, name, role, dept, status, score, color)
@@ -102,7 +102,7 @@ Without this, you'll get a successful sign-in then `auth callback origin mismatc
 
 In the deployed Vercel URL:
 
-1. **Sign in** as `hajihaz` / `hajihaz4` → lands on Admin overview.
+1. **Sign in** with the separately provisioned, owner-controlled admin credentials → lands on Admin overview.
 2. **Refresh the page** → still signed in (session persistence working).
 3. **Open DevTools console** → run `diagnostics()`. All checks should be green.
 4. **Open a second browser** (incognito or different device) → sign in as a manager/employee account.
